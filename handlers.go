@@ -14,7 +14,11 @@ func handlerLogin(s *state, cmd command) error {
 	if len(cmd.args) == 0 {
 		return errors.New("username is required")
 	}
-	err := s.cfg.SetUser(cmd.args[0])
+	user, err := s.db.GetUser(context.Background(), cmd.args[0])
+	if err != nil {
+		return err
+	}
+	err = s.cfg.SetUser(user)
 	if err != nil {
 		return err
 	}
@@ -34,11 +38,11 @@ func handlerRegister(s *state, cmd command) error {
 		Name:      cmd.args[0],
 	})
 	if err != nil {
-		return nil
+		return err
 	}
 	err = s.cfg.SetUser(user.Name)
 	if err != nil {
-		return nil
+		return err
 	}
 	fmt.Printf("%s was created sucessfully", user.Name)
 	fmt.Println(user)
