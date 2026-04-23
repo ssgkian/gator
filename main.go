@@ -1,10 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
+	_ "github.com/lib/pq"
 	"github.com/ssgkian/gator/internal/config"
+	"github.com/ssgkian/gator/internal/database"
 )
 
 func main() {
@@ -13,7 +16,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	db, err := sql.Open("postgres", cfg.DBURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbQueries := database.New(db)
+
 	newState := state{
+		db:  dbQueries,
 		cfg: &cfg,
 	}
 
@@ -21,6 +31,7 @@ func main() {
 		handlers: make(map[string]func(*state, command) error),
 	}
 	cmds.register("login", handlerLogin)
+	cmds.register("register", handlerRegister)
 
 	if len(os.Args) < 2 {
 		log.Fatal("not enough arguments provided")
@@ -33,5 +44,4 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
