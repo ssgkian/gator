@@ -20,6 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 	dbQueries := database.New(db)
 
 	newState := state{
@@ -32,6 +33,7 @@ func main() {
 	}
 	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
+	cmds.register("reset", handlerReset)
 
 	if len(os.Args) < 2 {
 		log.Fatal("not enough arguments provided")
