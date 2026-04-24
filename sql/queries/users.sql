@@ -9,6 +9,6 @@ VALUES (
 RETURNING *;
 
 -- name: GetUser :one
-SELECT name
+SELECT *
 FROM users
 WHERE name = $1;

@@ -18,18 +18,18 @@ func handlerLogin(s *state, cmd command) error {
 	if err != nil {
 		return err
 	}
-	err = s.cfg.SetUser(user)
+	err = s.cfg.SetUser(user.Name)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("username '%s' has been set successfully\n", cmd.args[0])
+	fmt.Printf("username '%s' has logged in successfully\n", cmd.args[0])
 	return nil
 
 }
 
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.args) == 0 {
-		return errors.New("name is required")
+		return errors.New("username is required")
 	}
 	user, err := s.db.CreateUser(context.Background(), database.CreateUserParams{
 		ID:        uuid.New(),
