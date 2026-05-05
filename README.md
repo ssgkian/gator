@@ -22,7 +22,7 @@ Create a `.gatorconfig.json` file in your home directory.
 ```
 
 ## Usage
-
+```bash
 gator register <name>
 gator login <name>
 gator reset
@@ -32,3 +32,4 @@ gator follow <url>
 gator unfollow <url>
 gator agg <time_duration> (30s, 1m, 15m etc)
 gator browse <limit> (5, 10, 20 etc)
+```
